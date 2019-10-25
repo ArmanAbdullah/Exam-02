@@ -21,8 +21,4 @@
     <ProjectReference Include="..\StockMarket.Data\StockMarket.Data.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
 </Project>

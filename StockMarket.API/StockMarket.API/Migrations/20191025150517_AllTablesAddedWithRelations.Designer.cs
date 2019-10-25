@@ -10,8 +10,8 @@ using StockMarket.Data;
 namespace StockMarket.API.Migrations
 {
     [DbContext(typeof(StockMarketContext))]
-    [Migration("20191025133525_AllTablesAdded")]
-    partial class AllTablesAdded
+    [Migration("20191025150517_AllTablesAddedWithRelations")]
+    partial class AllTablesAddedWithRelations
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

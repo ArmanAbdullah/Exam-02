@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace StockMarket.API.Migrations
 {
-    public partial class AllTablesAdded : Migration
+    public partial class AllTablesAddedWithRelations : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
