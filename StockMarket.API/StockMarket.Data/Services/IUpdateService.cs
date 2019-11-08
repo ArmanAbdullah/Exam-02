@@ -7,5 +7,6 @@ namespace StockMarket.Data.Services
     public interface IUpdateService
     {
         void UpdateCompanyData(string symbol, Company company);
+        void UpdateStockData(int Id, StockPrice stockPrice);
     }
 }

@@ -13,6 +13,20 @@ namespace StockMarket.Data.Services
             this.unitOfWork = unitOfWork;
         }
 
+        public IList<dynamic> InnerJoinGetAllStockDataOfACompanyUsingSymbol(string symbol)
+        {
+            IList<dynamic> stockDataList;
+            stockDataList = unitOfWork.stockPriceRepository.GetStockDataOfACompanyBySymbol(symbol);
+            return stockDataList;
+        }
+
+        public IList<dynamic> InnerJoinGetAllStockDataOfACompanyUsingSymbolInADateRange(string symbol, DateTime start, DateTime end)
+        {
+            IList<dynamic> stockDataList;
+            stockDataList = unitOfWork.stockPriceRepository.GetStockDataOfACompanyBySymbolInADateRange(symbol,start,end);
+            return stockDataList;
+        }
+
         public IList<string> ShowAllCompanies()
         {
             return unitOfWork.companyRepository.GetAllCompanies();

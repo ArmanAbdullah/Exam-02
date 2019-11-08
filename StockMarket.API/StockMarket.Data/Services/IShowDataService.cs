@@ -8,5 +8,7 @@ namespace StockMarket.Data.Services
     {
         IList<string> ShowAllCompanies();
         string ShowCompanyNameOfGivenSymbol(string symbol);
+        IList<dynamic> InnerJoinGetAllStockDataOfACompanyUsingSymbol(string symbol);
+        IList<dynamic> InnerJoinGetAllStockDataOfACompanyUsingSymbolInADateRange(string symbol, DateTime start, DateTime end);
     }
 }

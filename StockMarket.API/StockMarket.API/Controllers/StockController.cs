@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using StockMarket.Data;
 using StockMarket.Data.Services;
 
@@ -27,17 +29,41 @@ namespace StockMarket.API.Controllers
         }
 
         // GET: api/<controller>
-        [HttpGet]
-        public IEnumerable<string> Get()
+        [HttpGet("{ADODotNet}/{GetDataUsingAdapter}")]
+        public ActionResult<DataTable> Get([FromBody] string[] Informations)
         {
-            return new string[] { "value1", "value2" };
+            int PageIndex = Convert.ToInt32(Informations[0]);
+            int PageSize= Convert.ToInt32(Informations[1]);
+            string SortCol = Informations[2];
+            string SortDir = Informations[3];
+            string Search = Informations[4];
+            DataTable dataTable = ADODotNetClass.GetDataUsingAdapter(PageIndex, PageSize, SortCol, SortDir, Search);
+            return Ok(JsonConvert.SerializeObject(dataTable, Formatting.Indented, new JsonSerializerSettings()
+            {
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+            }));
         }
 
-        // GET api/<controller>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        //GET: api/<controller>/5
+        [HttpGet("{symbol}")]
+        public ActionResult<List<dynamic>> Get(string symbol)
         {
-            return "value";
+            var s = showDataService.InnerJoinGetAllStockDataOfACompanyUsingSymbol(symbol).ToList();
+            return Ok(JsonConvert.SerializeObject(s, Formatting.Indented, new JsonSerializerSettings()
+            {
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+            }));
+        }
+
+        //GET: api/<controller>/5
+        [HttpGet("{symbol}/{start}/{end}")]
+        public ActionResult<List<dynamic>> Get(string symbol,DateTime start,DateTime end)
+        {
+            var s = showDataService.InnerJoinGetAllStockDataOfACompanyUsingSymbolInADateRange(symbol, start, end).ToList();
+            return Ok(JsonConvert.SerializeObject(s, Formatting.Indented, new JsonSerializerSettings()
+            {
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+            }));
         }
 
         // POST api/<controller>
@@ -49,14 +75,22 @@ namespace StockMarket.API.Controllers
 
         // PUT api/<controller>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        public void Put(int id, [FromBody]StockPrice stockPrice)
         {
+            updateService.UpdateStockData(id, stockPrice);
         }
 
         // DELETE api/<controller>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpDelete("{symbol}")]
+        public void Delete(string symbol)
         {
+            deleteService.DeleteStockData(symbol);
+        }
+
+        [HttpDelete("{symbol}/{date}")]
+        public void Delete(string symbol,DateTime date)
+        {
+            deleteService.DeleteStockDataOfADay(symbol,date);
         }
     }
 }

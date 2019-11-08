@@ -32,10 +32,10 @@ namespace StockMarket.API
             var migrationAssemblyName = typeof(Startup).Assembly.FullName;
             var connectionString = Configuration.GetConnectionString("DefaultConnection");
             services
-                .AddTransient<ICompanyRepository,CompanyRepository>()
-                .AddTransient<IStockPriceRepository,StockpriceRepository>()
-                .AddTransient <IUnitOfWork,UnitOfWork>(x => new UnitOfWork(connectionString, migrationAssemblyName))
-                .AddTransient<ICreateService,CreateService>()
+                .AddTransient<ICompanyRepository, CompanyRepository>()
+                .AddTransient<IStockPriceRepository, StockpriceRepository>()
+                .AddTransient<IUnitOfWork, UnitOfWork>(x => new UnitOfWork(connectionString, migrationAssemblyName))
+                .AddTransient<ICreateService, CreateService>()
                 .AddTransient<IUpdateService, UpdateService>()
                 .AddTransient<IDeleteService, DeleteService>()
                 .AddTransient<IShowDataService, ShowDataService>();

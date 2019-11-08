@@ -22,5 +22,16 @@ namespace StockMarket.Data.Services
             //aCompany = company;
             unitOfWork.Save();
         }
+
+        public void UpdateStockData(int Id, StockPrice stockPrice)
+        {
+            StockPrice stockData = unitOfWork.stockPriceRepository.GetStockDataById(Id);
+            stockData.Id = stockPrice.Id;
+            stockData.CompanyId = stockPrice.CompanyId;
+            stockData.TradingDay = stockPrice.TradingDay;
+            stockData.MinPrice = stockPrice.MinPrice;
+            stockData.MaxPrice = stockData.MaxPrice;
+            unitOfWork.Save();
+        }
     }
 }

@@ -26,30 +26,49 @@ namespace Stockmarket.Client
                 Name = name,
                 Symbol = newsymbol
             };
-            var url = "https://localhost:44368/api/Company/"+symbol;
+            var url = "https://localhost:44368/api/Company/"+symbol + "/";
+            UpdateData(url, company);
+        }
+
+        internal static void UpdateStockData()
+        {
+            Console.WriteLine("Enter id:");
+            var oldId = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Enter new Id:");
+            var Id = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Enter new Company id:");
+            var companyId = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Enter new min price:");
+            var minPrice = Convert.ToDouble(Console.ReadLine());
+            Console.WriteLine("Enter new max price:");
+            var maxPrice = Convert.ToDouble(Console.ReadLine());
+            Console.WriteLine("Enter new date:");
+            var tradingDate = Convert.ToDateTime(Console.ReadLine());
+            StockPrice stockPrice = new StockPrice()
+            {
+                Id = Id,
+                CompanyId = companyId,
+                MinPrice = minPrice,
+                MaxPrice=maxPrice,
+                TradingDay=tradingDate
+            };
+            var url = "https://localhost:44368/api/Stock/" + oldId + "/";
+            UpdateData(url, stockPrice);
+        }
+
+        private static void UpdateData(string url,dynamic anObject)
+        {
             var request = WebRequest.Create(url);
             request.Method = "PUT";
             request.ContentType = "application/json";
-            var requestContent = JsonConvert.SerializeObject(company);
+            var requestContent = JsonConvert.SerializeObject(anObject);
             var data = Encoding.UTF8.GetBytes(requestContent);
             request.ContentLength = data.Length;
             using (var requestStream = request.GetRequestStream())
             {
                 requestStream.Write(data, 0, data.Length);
                 requestStream.Flush();
-                using (var response = request.GetResponse())
-                {
-                    using (var streamItem = response.GetResponseStream())
-                    {
-                        using (var reader = new StreamReader(streamItem))
-                        {
-                            var result = reader.ReadToEnd();
-                            //Console.WriteLine(result);
-                            dynamic amount = JsonConvert.DeserializeObject(result);
-                            Console.WriteLine("Amount:" + amount);
-                        }
-                    }
-                }
+                request.GetResponse();
             }
         }
     }

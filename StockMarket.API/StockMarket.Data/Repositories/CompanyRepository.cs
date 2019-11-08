@@ -32,7 +32,7 @@ namespace StockMarket.Data.Repositories
         public IList<string> GetAllCompanies()
         {
             var list = new List<string>();
-            list=context.Companies.ToList().Select(c=>c.Name).ToList();
+            list=context.Companies.Select(c=>c.Name).ToList();
             return list;
         }
 

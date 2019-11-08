@@ -10,9 +10,9 @@ namespace StockMarket.Data
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int Id { get; set; }
-        [Required]
+        [Required,MaxLength(500)]
         public string Name { get; set; }
-        [Required]
+        [Required,MaxLength(50)]
         public string Symbol { get; set; }
         public IList<StockPrice> StockPrices { get; set; }
     }
